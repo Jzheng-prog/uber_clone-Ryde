@@ -2,8 +2,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { ButtonProps } from "@/types/type";
 
-const getBgVariantStyle = (varient: ButtonProps["bgVariant"]) => {
-  switch (varient) {
+const getBgVariantStyle = (variant: ButtonProps["bgVariant"]) => {
+  switch (variant) {
     case "secondary":
       return "bg-gray-500";
     case "danger":
@@ -17,8 +17,8 @@ const getBgVariantStyle = (varient: ButtonProps["bgVariant"]) => {
   }
 };
 
-const getTextVariantStyle = (varient: ButtonProps["textVariant"]) => {
-  switch (varient) {
+const getTextVariantStyle = (variant: ButtonProps["textVariant"]) => {
+  switch (variant) {
     case "primary":
       return "text-black";
     case "secondary":
@@ -35,7 +35,7 @@ const CustomButton = ({
   onPress,
   title,
   bgVariant = "primary",
-  textVarient = "default",
+  textVariant = "default",
   IconLeft,
   IcontRight,
   className,
@@ -48,7 +48,7 @@ const CustomButton = ({
       className={`p-3 w-full rounded-full border border-blue-400 flex flex-row justify-center items-center shadow-md shadow-neutral-400/70 ${getBgVariantStyle(bgVariant)} ${className}`}
     >
       {IconLeft && <IconLeft />}
-      <Text className={`text-lg font-bold ${getTextVariantStyle(textVarient)}`}>
+      <Text className={`text-lg font-bold ${getTextVariantStyle(textVariant)}`}>
         {title}
       </Text>
       {IcontRight && <IcontRight />}

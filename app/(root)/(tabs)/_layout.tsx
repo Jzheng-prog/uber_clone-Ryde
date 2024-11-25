@@ -1,12 +1,26 @@
-import { Stack } from "expo-router";
+import { Stack, Tabs } from "expo-router";
+import { View, Text } from "react-native";
 
 import "react-native-reanimated";
 
-export default function RootLayout() {
-  return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
-    </Stack>
-  );
+const TabIcon = () => (
+  <View>
+    <Text>Icon</Text>
+  </View>
+);
+export default function TabLayout() {
+  <Tabs
+    initialRouteName="index"
+    screenOptions={{
+      tabBarActiveTintColor: "white",
+    }}
+  >
+    <Tabs.Screen
+      name="home"
+      options={{
+        title: "Home",
+        tabBarIcon: () => <TabIcon />,
+      }}
+    />
+  </Tabs>;
 }
