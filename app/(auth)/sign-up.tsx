@@ -18,9 +18,9 @@ import { useSignUp } from "@clerk/clerk-expo";
 
 const SignUp = () => {
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: "zhengjohn017@gmail.com",
+    email: "zhengjohn017@gmail.com",
+    password: "zhengjohn017@gmail.com",
   });
   const { isLoaded, signUp, setActive } = useSignUp();
   const [verification, setVerification] = useState({
@@ -28,8 +28,13 @@ const SignUp = () => {
     error: "",
     code: "",
   });
-  const [showSuccessModal, setShowSuccessModal] = useState(true);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const onSignUpPress = async () => {
+    //delete after fixing the clerk
+
+    // router.push("/(auth)/sign-in");
+    //uncomment when fixing the clerk
+
     if (!isLoaded) {
       return;
     }
@@ -49,7 +54,7 @@ const SignUp = () => {
     } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      Alert.alert("Sign in Error", err.errors[0].longMessage);
+      Alert.alert("Sign in Error ddd", err.errors[0].longMessage);
     }
   };
 

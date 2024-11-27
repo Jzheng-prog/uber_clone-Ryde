@@ -9,13 +9,18 @@ import { Link, useRouter } from "expo-router";
 
 const SignIn = () => {
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    email: "jzheng19@terpmail.umd.edu",
+    password: "jzheng19@terpmail.umd.edu",
   });
   const { signIn, setActive, isLoaded } = useSignIn();
   const router = useRouter();
 
   const onSignInPress = useCallback(async () => {
+    //delete after fixing the clerk
+
+    // router.replace("/(root)/(tabs)/rides");
+    //uncomment when fixing the clerk
+
     if (!isLoaded) {
       return;
     }
@@ -38,6 +43,7 @@ const SignIn = () => {
       console.error(JSON.stringify(err, null, 2));
     }
   }, [isLoaded, form.email, form.password]);
+  // [isLoaded, form.email, form.password]
   return (
     <ScrollView className="flex-1 bg-white">
       <View className="bg-white flex-1">
@@ -51,12 +57,14 @@ const SignIn = () => {
           <InputField
             label="Email"
             placeholder="Enter Your Email"
+            placeholderTextColor="#cccccc"
             value={form.email}
             icon={icons.email}
             onChangeText={(value) => setForm({ ...form, email: value })}
           />
           <InputField
             label="Password"
+            placeholderTextColor="#cccccc"
             placeholder="Enter Your Password"
             value={form.password}
             icon={icons.lock}

@@ -42,6 +42,8 @@ export default function RootLayout() {
   }
 
   return (
+    //uncomment when fixing the clerk
+
     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
       <ClerkLoaded>
         <Stack>

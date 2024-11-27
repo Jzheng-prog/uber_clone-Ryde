@@ -5,6 +5,8 @@ import { Redirect } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 
 const Home = () => {
+  //uncomment when fixing the clerk
+
   const { isSignedIn } = useAuth();
 
   if (isSignedIn) {

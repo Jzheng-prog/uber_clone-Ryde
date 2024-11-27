@@ -37,7 +37,7 @@ const CustomButton = ({
   bgVariant = "primary",
   textVariant = "default",
   IconLeft,
-  IcontRight,
+  IconRight,
   className,
   ...props
 }: ButtonProps) => {
@@ -51,7 +51,7 @@ const CustomButton = ({
       <Text className={`text-lg font-bold ${getTextVariantStyle(textVariant)}`}>
         {title}
       </Text>
-      {IcontRight && <IcontRight />}
+      {IconRight && <IconRight />}
     </TouchableOpacity>
   );
 };
