@@ -8,13 +8,14 @@ const RideCard = ({ item }: { item: Ride }) => {
   return (
     <View className="flex flex-row items-center justify-center bg-white border rounded-lg mb-3">
       <View className="flex flex-col items-center justify-center p-3">
+        <Text>
+          {item.destination_latitude},{item.destination_longitude}
+        </Text>
         <View className="flex flex-row items-center justify-between">
           <Image
-            source={
-              {
-                //   uri: `https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=600&height=400&center=lonlat:${item.origin_longitude},${item.origin_latitude}&zoom=14&apiKey=${EXPO_PUBLIC_GEOAPIFY_APY_KEY}`,
-              }
-            }
+            source={{
+              uri: `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${item.destination_longitude}%2C${item.destination_latitude}&zoom=14&marker=lonlat:${item.destination_longitude},${item.destination_latitude}&apiKey=${process.env.EXPO_PUBLIC_GEOAPIFY_APY_KEY}`,
+            }}
             className="w-[80px] h-[90px] rounded-lg border"
           />
 

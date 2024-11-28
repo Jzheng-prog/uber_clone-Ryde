@@ -18,9 +18,9 @@ import { useSignUp } from "@clerk/clerk-expo";
 
 const SignUp = () => {
   const [form, setForm] = useState({
-    name: "zhengjohn017@gmail.com",
-    email: "zhengjohn017@gmail.com",
-    password: "zhengjohn017@gmail.com",
+    name: "",
+    email: "",
+    password: "",
   });
   const { isLoaded, signUp, setActive } = useSignUp();
   const [verification, setVerification] = useState({

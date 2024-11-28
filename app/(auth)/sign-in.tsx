@@ -9,8 +9,8 @@ import { Link, useRouter } from "expo-router";
 
 const SignIn = () => {
   const [form, setForm] = useState({
-    email: "jzheng19@terpmail.umd.edu",
-    password: "jzheng19@terpmail.umd.edu",
+    email: "",
+    password: "",
   });
   const { signIn, setActive, isLoaded } = useSignIn();
   const router = useRouter();

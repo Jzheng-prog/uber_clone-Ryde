@@ -2,9 +2,11 @@ import GoogleTextInput from "@/components/GoogleTextInput";
 import Map from "@/components/Map";
 import RideCard from "@/components/RideCard";
 import { icons, images } from "@/constants";
+import { useLocationStore } from "@/store";
 import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
 import { Link } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as Location from "expo-location";
 import {
   ActivityIndicator,
   FlatList,
@@ -17,6 +19,33 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabHome() {
   // const { user } = useUser();
+
+  const { setUserLocation, setDestinationLocation } = useLocationStore();
+  const [hasPermission, setHasPermission] = useState(false);
+
+  useEffect(() => {
+    const requestLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+
+      if (status !== "granted") {
+        setHasPermission(false);
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync();
+
+      const address = await Location.reverseGeocodeAsync({
+        latitude: location.coords?.latitude!,
+        longitude: location.coords?.longitude!,
+      });
+
+      setUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        address: `${address[0].name}, ${address[0].region}`,
+      });
+    };
+    requestLocation();
+  }, []);
 
   const mockData = [
     {
@@ -127,20 +156,6 @@ export default function TabHome() {
 
   const [loading, setLoading] = useState(true);
   return (
-    // <View>
-    //   <SignedIn>
-    //     <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
-    //   </SignedIn>
-    //   <SignedOut>
-    //     <Link href="/sign-in">
-    //       <Text>Sign In</Text>
-    //     </Link>
-    //     <Link href="/sign-up">
-    //       <Text>Sign Up</Text>
-    //     </Link>
-    //   </SignedOut>
-    // </View>
-
     <SafeAreaView className="h-full border w-full flex items-center justify-center z-0">
       <FlatList
         data={mockData}
@@ -189,10 +204,10 @@ export default function TabHome() {
               <View className="border flex flex-row items-center bg-transparent h-[300px]">
                 <Map />
               </View>
-              <Text className="text-xl font-JakartaBold mt-5 mb-3">
-                Recent Rides
-              </Text>
             </>
+            <Text className="text-xl font-JakartaBold mt-5 mb-3">
+              Recent Rides
+            </Text>
           </>
         )}
       />
