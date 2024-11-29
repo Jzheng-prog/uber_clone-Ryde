@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Ride } from "@/types/type";
 import { icons } from "@/constants";
 import { formatDate, formatTime } from "@/lib/utils";
@@ -8,9 +8,7 @@ const RideCard = ({ item }: { item: Ride }) => {
   return (
     <View className="flex flex-row items-center justify-center bg-white border rounded-lg mb-3">
       <View className="flex flex-col items-center justify-center p-3">
-        <Text>
-          {item.destination_latitude},{item.destination_longitude}
-        </Text>
+        <Text>{process.env.EXPO_PUBLIC_GOOGLE_API_KEY}</Text>
         <View className="flex flex-row items-center justify-between">
           <Image
             source={{

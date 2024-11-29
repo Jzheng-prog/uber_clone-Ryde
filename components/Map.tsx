@@ -71,6 +71,7 @@ const Map = () => {
   });
 
   useEffect(() => {
+    setDrivers(mockDriverData);
     if (Array.isArray(mockDriverData)) {
       if (!userLatitude || !userLongitude) return;
 

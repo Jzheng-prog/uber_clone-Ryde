@@ -4,7 +4,7 @@ import RideCard from "@/components/RideCard";
 import { icons, images } from "@/constants";
 import { useLocationStore } from "@/store";
 import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import {
@@ -21,7 +21,18 @@ export default function TabHome() {
   // const { user } = useUser();
 
   const { setUserLocation, setDestinationLocation } = useLocationStore();
-  const [hasPermission, setHasPermission] = useState(false);
+  const [hasPermission, setHasPermission] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const handleDestinationPress = (location: {
+    latitude: number;
+    longitude: number;
+    address: string;
+  }) => {
+    setDestinationLocation(location);
+
+    router.push("/(root)/find-ride");
+  };
 
   useEffect(() => {
     const requestLocation = async () => {
@@ -31,6 +42,8 @@ export default function TabHome() {
         setHasPermission(false);
         return;
       }
+      setHasPermission(true);
+
       let location = await Location.getCurrentPositionAsync();
 
       const address = await Location.reverseGeocodeAsync({
@@ -45,6 +58,7 @@ export default function TabHome() {
       });
     };
     requestLocation();
+    console.log({ hasPermission });
   }, []);
 
   const mockData = [
@@ -154,7 +168,6 @@ export default function TabHome() {
     },
   ];
 
-  const [loading, setLoading] = useState(true);
   return (
     <SafeAreaView className="h-full border w-full flex items-center justify-center z-0">
       <FlatList
@@ -196,7 +209,11 @@ export default function TabHome() {
                 <Image source={icons.out} className="w-4 h-4" />
               </TouchableOpacity>
             </View>
-            <GoogleTextInput icon={icons.search} handlePress={() => {}} />
+            <GoogleTextInput
+              icon={icons.search}
+              handlePress={handleDestinationPress}
+              containerStyle="bg-white shadow-md shadow-neutral-300 mt-3"
+            />
             <>
               <Text className="text-xl font-JakartaBold mt-5 mb-3">
                 Your current Location
