@@ -3,7 +3,7 @@ import Map from "@/components/Map";
 import RideCard from "@/components/RideCard";
 import { icons, images } from "@/constants";
 import { useLocationStore } from "@/store";
-import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
+import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
@@ -16,13 +16,15 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { useFetch } from "@/lib/fetch";
 export default function TabHome() {
-  // const { user } = useUser();
-
+  const { user } = useUser();
+  const { data: recentRides, loading } = useFetch(`/(api)/ride/${user?.id}`);
   const { setUserLocation, setDestinationLocation } = useLocationStore();
   const [hasPermission, setHasPermission] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { signOut } = useAuth();
+
+  // const [loading, setLoading] = useState<boolean>(true);
 
   const handleDestinationPress = (location: {
     latitude: number;
@@ -32,6 +34,10 @@ export default function TabHome() {
     setDestinationLocation(location);
 
     router.push("/(root)/find-ride");
+  };
+  const handleSignOut = () => {
+    signOut();
+    router.replace("/(auth)/sign-in");
   };
 
   useEffect(() => {
@@ -199,12 +205,12 @@ export default function TabHome() {
           <>
             <View className="flex flex-row items-center justify-between border">
               <Text className="text-xl font-JakartaExtraBold">
-                Welcome John Smith
-                {/* 2:51:00 */}
+                Welcome{" "}
+                {user?.firstName || user?.emailAddresses[0].emailAddress}
               </Text>
               <TouchableOpacity
                 className="justify-center items-center w-10 h-10 border"
-                onPress={() => {}}
+                onPress={handleSignOut}
               >
                 <Image source={icons.out} className="w-4 h-4" />
               </TouchableOpacity>

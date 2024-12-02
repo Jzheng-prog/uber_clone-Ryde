@@ -15,6 +15,7 @@ import CustomButton from "@/components/CustomButton";
 import { Link, router } from "expo-router";
 import OAuth from "@/components/OAuth";
 import { useSignUp } from "@clerk/clerk-expo";
+import { fetchAPI } from "@/lib/fetch";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -28,7 +29,7 @@ const SignUp = () => {
     error: "",
     code: "",
   });
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(true);
   const onSignUpPress = async () => {
     //delete after fixing the clerk
 
@@ -69,6 +70,14 @@ const SignUp = () => {
       });
 
       if (completeSignUp.status === "complete") {
+        await fetchAPI("/(api)/user", {
+          method: "POST",
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            clerkId: completeSignUp.createdUserId,
+          }),
+        });
         await setActive({ session: completeSignUp.createdSessionId });
         setVerification({
           ...verification,
