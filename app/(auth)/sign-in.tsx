@@ -16,11 +16,6 @@ const SignIn = () => {
   const router = useRouter();
 
   const onSignInPress = useCallback(async () => {
-    //delete after fixing the clerk
-
-    // router.replace("/(root)/(tabs)/rides");
-    //uncomment when fixing the clerk
-
     if (!isLoaded) {
       return;
     }

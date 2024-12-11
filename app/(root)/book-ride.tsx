@@ -17,9 +17,9 @@ const BookRide = () => {
     (driver) => +driver.id === selectedDriver
   )[0];
 
-  console.log({ drivers });
-  console.log({ selectedDriver });
-  console.log({ driverDetails });
+  // console.log({ drivers });
+  // console.log({ selectedDriver });
+  // console.log({ driverDetails });
   return (
     <StripeProvider
       publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!}

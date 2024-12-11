@@ -13,9 +13,9 @@ const welcome = () => {
   const isLastIndex = activeIndex === onboarding.length - 1;
 
   return (
-    <SafeAreaView className="h-full border border-blue-400 flex items-center justify-between">
+    <SafeAreaView className="h-full flex items-center justify-between">
       <TouchableOpacity
-        className="w-full items-end justify-end p-5 border"
+        className="w-full items-end justify-end p-5"
         onPress={() => router.replace("/(auth)/sign-up")}
       >
         <Text className="text-black text-md font-JakartaBold">Skip</Text>
@@ -24,24 +24,21 @@ const welcome = () => {
         ref={swiperRef}
         loop={false}
         dot={
-          <View className="w-[32px] h-[8px] mx-1 bg-[#E2E8F0] rounded-full border border-black" />
+          <View className="w-[32px] h-[8px] mx-1 bg-[#E2E8F0] rounded-full" />
         }
         activeDot={
-          <View className="w-[32px] h-[8px] mx-1 bg-[#E2E8F0] rounded-full border border-red-400" />
+          <View className="w-[32px] h-[8px] mx-1 bg-[#0286FF] rounded-full" />
         }
         onIndexChanged={(index) => setActiveIndex(index)}
       >
         {onboarding.map((item) => (
-          <View
-            className="border border-danger-500 flex items-center justify-center p-5"
-            key={item.id}
-          >
+          <View className="flex items-center justify-center p-5" key={item.id}>
             <Image
               source={item.image}
               resizeMode="contain"
               className="h-[300px] w-full"
             />
-            <View className="flex flex-row items-center justify-center border w-full mt-10">
+            <View className="flex flex-row items-center justify-center w-full mt-10">
               <Text className="text-black text-3xl font-bold mx-10 text-center">
                 {item.title}
               </Text>
@@ -52,15 +49,17 @@ const welcome = () => {
           </View>
         ))}
       </Swiper>
-      <CustomButton
-        className="w-11/12 mt-10"
-        title={isLastIndex ? "Get started" : "Next"}
-        onPress={() =>
-          isLastIndex
-            ? router.replace("/(auth)/sign-up")
-            : swiperRef.current?.scrollBy(1)
-        }
-      />
+      <View className="w-full p-2">
+        <CustomButton
+          className="mt-10"
+          title={isLastIndex ? "Get started" : "Next"}
+          onPress={() =>
+            isLastIndex
+              ? router.replace("/(auth)/sign-up")
+              : swiperRef.current?.scrollBy(1)
+          }
+        />
+      </View>
     </SafeAreaView>
   );
 };

@@ -1,14 +1,6 @@
-import {
-  Alert,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Alert, Image, ScrollView, Text, View } from "react-native";
 import ReactNativeModal from "react-native-modal";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { icons, images } from "@/constants";
 import InputField from "@/components/InputField";
 import CustomButton from "@/components/CustomButton";
@@ -16,6 +8,7 @@ import { Link, router } from "expo-router";
 import OAuth from "@/components/OAuth";
 import { useSignUp } from "@clerk/clerk-expo";
 import { fetchAPI } from "@/lib/fetch";
+import { StatusBar } from "expo-status-bar";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -29,13 +22,8 @@ const SignUp = () => {
     error: "",
     code: "",
   });
-  const [showSuccessModal, setShowSuccessModal] = useState(true);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const onSignUpPress = async () => {
-    //delete after fixing the clerk
-
-    // router.push("/(auth)/sign-in");
-    //uncomment when fixing the clerk
-
     if (!isLoaded) {
       return;
     }
@@ -78,11 +66,15 @@ const SignUp = () => {
             clerkId: completeSignUp.createdUserId,
           }),
         });
+        console.log({ verification });
         await setActive({ session: completeSignUp.createdSessionId });
         setVerification({
           ...verification,
           state: "success",
         });
+        setShowSuccessModal(true);
+
+        console.log("end of verification: status: ", verification.state);
       } else {
         setVerification({
           ...verification,
@@ -100,124 +92,120 @@ const SignUp = () => {
       console.error(JSON.stringify(err, null, 2));
     }
   };
-  useEffect(() => {
-    console.log({ showSuccessModal }, { verification });
-  }, [showSuccessModal, verification]);
+
   return (
-    <ScrollView className="flex-1 bg-white">
-      <View className="bg-white flex-1">
-        <View className="w-full relative h-[250px]">
-          <Image source={images.signUpCar} className="z-0 w-full h-[250px]" />
-          <Text className="text-2xl text-black font-JakartaSemiBold absolute bottom-5 left-5">
-            Create Your Account
-          </Text>
-        </View>
-        <View className="p-5">
-          <InputField
-            label="Name"
-            placeholderTextColor="#cccccc"
-            placeholder="Enter Your Name"
-            value={form.name}
-            icon={icons.person}
-            onChangeText={(value) => setForm({ ...form, name: value })}
-          />
-          <InputField
-            label="Email"
-            placeholderTextColor="#cccccc"
-            placeholder="Enter Your Email"
-            value={form.email}
-            icon={icons.email}
-            onChangeText={(value) => setForm({ ...form, email: value })}
-          />
-          <InputField
-            label="Password"
-            placeholderTextColor="#cccccc"
-            placeholder="Enter Your Password"
-            value={form.password}
-            icon={icons.lock}
-            onChangeText={(value) => setForm({ ...form, password: value })}
-          />
-          <CustomButton
-            title="sign up"
-            onPress={onSignUpPress}
-            className="mt-6"
-          />
-          <OAuth />
-
-          <Link
-            href="/sign-in"
-            className="mt-10 text-general-200 text-lg text-center"
-          >
-            <Text>Already have an Account?</Text>
-            <Text className="text-primary-500"> Login</Text>
-          </Link>
-        </View>
-        <ReactNativeModal isVisible={showSuccessModal}>
-          {/* ={verification.state === "success"} */}
-          <View className="border bg-white px-7 py-9 rounded-2xl min-h-[300px]">
-            <Image
-              source={images.check}
-              className="w-[110px] h-[110px] mx-auto my-5"
-            />
-            <Text className="text-3xl text-center font-JakartaBold">
-              Verified
+    <>
+      <ScrollView className="flex-1 bg-white">
+        <View className="bg-white flex-1">
+          <View className="w-full relative h-[250px]">
+            <Image source={images.signUpCar} className="z-0 w-full h-[250px]" />
+            <Text className="text-2xl text-black font-JakartaSemiBold absolute bottom-5 left-5">
+              Create Your Account
             </Text>
-            <Text className="text-lg text-center font-JakartaBold">
-              {form.email}
-            </Text>
-            <Text className="text-base text-gray-400 font-Jakarta text-center mt-2">
-              You have successfully verified your account.
-            </Text>
-            <CustomButton
-              title="Browse Home"
-              onPress={() => {
-                setShowSuccessModal(false);
-                router.push("/(root)/(tabs)/tabHome");
-              }}
-              className="mt-5"
-            />
           </View>
-        </ReactNativeModal>
-
-        <ReactNativeModal
-          isVisible={verification.state === "pending"}
-          onModalHide={() => {
-            if (verification.state === "success") {
-              setShowSuccessModal(true);
-            }
-          }}
-        >
-          {/* ={verification.state === "success"} */}
-          <View className="border bg-white px-7 py-9 rounded-2xl min-h-[300px]">
-            <Text className="text-3xl font-JakartaBold mb-2">Verification</Text>
-            <Text className="text-lg font-Jakarta mb-5">
-              Verification code has been sent to {form.email}
-            </Text>
+          <View className="p-5">
             <InputField
-              label="Code"
-              placeholder="12345"
+              label="Name"
               placeholderTextColor="#cccccc"
+              placeholder="Enter Your Name"
+              value={form.name}
+              icon={icons.person}
+              onChangeText={(value) => setForm({ ...form, name: value })}
+            />
+            <InputField
+              label="Email"
+              placeholderTextColor="#cccccc"
+              placeholder="Enter Your Email"
+              value={form.email}
+              icon={icons.email}
+              onChangeText={(value) => setForm({ ...form, email: value })}
+            />
+            <InputField
+              label="Password"
+              placeholderTextColor="#cccccc"
+              placeholder="Enter Your Password"
+              value={form.password}
               icon={icons.lock}
-              keyboardType="numeric"
-              value={verification.code}
-              onChangeText={(e) => {
-                setVerification({ ...verification, code: e });
-              }}
+              onChangeText={(value) => setForm({ ...form, password: value })}
             />
-            {verification.error && (
-              <Text className="text-red-500 text-sm mt-1">
-                {verification.error}
-              </Text>
-            )}
             <CustomButton
-              title="Verify Email"
-              className="mt-5 bg-success-500"
-              onPress={onPressVerify}
+              title="sign up"
+              onPress={onSignUpPress}
+              className="mt-6"
             />
+            <OAuth />
+
+            <Link
+              href="/sign-in"
+              className="mt-10 text-general-200 text-lg text-center"
+            >
+              <Text>Already have an Account?</Text>
+              <Text className="text-primary-500"> Login</Text>
+            </Link>
           </View>
-        </ReactNativeModal>
-      </View>
-    </ScrollView>
+          {verification.state === "pending" ? (
+            <ReactNativeModal isVisible={verification.state === "pending"}>
+              <View className="border bg-white px-7 py-9 rounded-2xl min-h-[300px]">
+                <Text className="text-3xl font-JakartaBold mb-2">
+                  Verification
+                </Text>
+                <Text className="text-lg font-Jakarta mb-5">
+                  Verification code has been sent to {form.email}
+                </Text>
+                <InputField
+                  label="Code"
+                  placeholder="12345"
+                  placeholderTextColor="#cccccc"
+                  icon={icons.lock}
+                  keyboardType="numeric"
+                  value={verification.code}
+                  onChangeText={(e) => {
+                    setVerification({ ...verification, code: e });
+                  }}
+                />
+                {verification.error && (
+                  <Text className="text-red-500 text-sm mt-1">
+                    {verification.error}
+                  </Text>
+                )}
+                <CustomButton
+                  title="Verify Email"
+                  className="mt-5 bg-success-500"
+                  onPress={onPressVerify}
+                />
+              </View>
+            </ReactNativeModal>
+          ) : (
+            <ReactNativeModal isVisible={showSuccessModal}>
+              <View className="border bg-white px-7 py-9 rounded-2xl min-h-[300px]">
+                <Image
+                  source={images.check}
+                  className="w-[110px] h-[110px] mx-auto my-5"
+                />
+                <Text className="text-3xl text-center font-JakartaBold">
+                  Verified
+                </Text>
+                <Text className="text-lg text-center font-JakartaBold">
+                  {form.email}
+                </Text>
+                <Text className="text-base text-gray-400 font-Jakarta text-center mt-2">
+                  You have successfully verified your account.
+                </Text>
+                <CustomButton
+                  title="Browse Home"
+                  onPress={() => {
+                    setShowSuccessModal(false);
+                    router.push("/(root)/(tabs)/tabHome");
+                  }}
+                  className="mt-5"
+                />
+              </View>
+            </ReactNativeModal>
+          )}
+        </View>
+      </ScrollView>
+      <StatusBar backgroundColor="#161622" style="light" />
+    </>
   );
 };
 
