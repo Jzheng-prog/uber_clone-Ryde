@@ -55,7 +55,7 @@ export const useDriverStore = create<DriverStore>((set) => ({
   setSelectedDriver: (driverId: number) =>
     set(() => ({ selectedDriver: driverId })),
   setDrivers: (drivers: MarkerData[]) => {
-    console.log("Updating drivers driverStore:", drivers); // Log for debugging
+    // console.log("Updating drivers driverStore:", drivers);
     set(() => ({ drivers }));
   },
   clearSelectedDriver: () => set(() => ({ selectedDriver: null })),

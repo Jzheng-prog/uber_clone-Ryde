@@ -138,7 +138,7 @@ const Payment = ({
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
       setSucess(true);
-      Alert.alert("Success", "Your order is confirmed!");
+      // Alert.alert("Success", "Your order is confirmed!");
     }
   };
 
@@ -154,7 +154,7 @@ const Payment = ({
         onPress={openPaymentSheet}
       />
       <ReactNativeModal
-        isVisible={false}
+        isVisible={success}
         onBackdropPress={() => setSucess(false)}
       >
         <View className="flex flex-col items-center justify-center bg-white p-7 rounded-2xl">

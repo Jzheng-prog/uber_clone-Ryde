@@ -15,7 +15,7 @@ const GoogleTextInput = ({
 }: GoogleInputProps) => {
   return (
     <View
-      className={`border border-red-400 flex flex-row items-center justify-center relative z-50 rounded-xl ${containerStyle}`}
+      className={` flex flex-row items-center justify-center relative z-50 rounded-xl ${containerStyle}`}
     >
       {/* <Text>{process.env.EXPO_PUBLIC_GOOGLE_API_KEY}</Text> */}
       <GooglePlacesAutocomplete
@@ -65,7 +65,7 @@ const GoogleTextInput = ({
           language: "en",
         }}
         renderLeftButton={() => (
-          <View className="justify-center items-center w-6 h-6 border">
+          <View className="justify-center items-center w-6 h-6">
             <Image
               source={icon ? icon : icons.search}
               className="w-6 h-6"

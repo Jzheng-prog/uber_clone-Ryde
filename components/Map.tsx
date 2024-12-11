@@ -25,7 +25,8 @@ const Map = () => {
     destinationLatitude,
     destinationLongitude,
   } = useLocationStore();
-  const { selectedDriver, setDrivers, drivers } = useDriverStore();
+  const { selectedDriver, setDrivers } = useDriverStore();
+
   const [markers, setMarkers] = useState<MarkerData[]>([]);
   const region = calculateRegion({
     userLongitude,
@@ -54,28 +55,6 @@ const Map = () => {
     }
   }, [driversData]);
 
-  // useEffect(() => {
-  //   console.log("Updated drivers:", drivers);
-  // }, [drivers]);
-
-  // useEffect(() => {
-  //   if (
-  //     markers.length > 0 &&
-  //     destinationLatitude !== undefined &&
-  //     destinationLongitude !== undefined
-  //   ) {
-  //     calculateDriverTimes({
-  //       markers,
-  //       userLatitude,
-  //       userLongitude,
-  //       destinationLatitude,
-  //       destinationLongitude,
-  //     }).then((drivers) => {
-  //       setDrivers(drivers as MarkerData[]);
-  //     });
-  //   }
-  // }, [markers, destinationLatitude, destinationLongitude]);
-
   useEffect(() => {
     if (Array.isArray(driversData)) {
       if (!userLatitude || !userLongitude) return;
@@ -88,7 +67,27 @@ const Map = () => {
       setMarkers(newMarker);
     }
   }, [driversData, userLatitude, userLongitude]);
+  // useEffect(() => {
+  //   console.log("Updated drivers:", drivers);
+  // }, [drivers]);
 
+  useEffect(() => {
+    if (
+      markers.length > 0 &&
+      destinationLatitude !== undefined &&
+      destinationLongitude !== undefined
+    ) {
+      calculateDriverTimes({
+        markers,
+        userLatitude,
+        userLongitude,
+        destinationLatitude,
+        destinationLongitude,
+      }).then((drivers) => {
+        setDrivers(drivers as MarkerData[]);
+      });
+    }
+  }, [markers, destinationLatitude, destinationLongitude]);
   if (loading || !userLatitude || !userLongitude) {
     return (
       <View className="flex justify-between items-center w-full">

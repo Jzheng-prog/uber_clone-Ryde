@@ -13,7 +13,7 @@ const TabIcon = ({
 }) => {
   return (
     <View
-      className={`flex flex-row justify-center items-center rounded-full ${focused ? "bg-red-300" : ""}`}
+      className={`flex justify-center rounded-full items-center ${focused ? "bg-general-300" : ""}`}
     >
       <View
         className={`rounded-full w-12 h-12 items-center justify-center ${focused ? "bg-general-400" : ""}`}
@@ -66,7 +66,7 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "profile",
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} source={icons.profile} />
           ),
@@ -76,7 +76,7 @@ export default function TabLayout() {
         name="chat"
         options={{
           title: "chat",
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} source={icons.chat} />
           ),
@@ -86,7 +86,7 @@ export default function TabLayout() {
         name="rides"
         options={{
           title: "rides",
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} source={icons.list} />
           ),

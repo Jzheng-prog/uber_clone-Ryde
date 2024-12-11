@@ -13,7 +13,7 @@ const rides = () => {
     `/(api)/ride/${user?.id}`
   );
   return (
-    <SafeAreaView className="h-full border w-full flex items-center justify-center z-0">
+    <SafeAreaView className="h-full w-full flex items-center justify-center z-0">
       <FlatList
         data={recentRides}
         // data={[]}
